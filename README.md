@@ -21,7 +21,7 @@ Each step is executed by a specialized agent with access to relevant tools and c
 ---
 
 ## 📂 Directory Structure
-
+```
 traffic_flow_agent/
 ├── agents/ # All agent definitions
 ├── tools/ # Modular tools used by agents
