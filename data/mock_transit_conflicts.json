@@ -1,0 +1,9 @@
+[
+  {
+    "route_id": "Bus 17",
+    "conflict_intersections": [
+      "Elm Rd & Oak St"
+    ],
+    "suggested_adjustments": "Increase green time or create transit priority lane"
+  }
+]

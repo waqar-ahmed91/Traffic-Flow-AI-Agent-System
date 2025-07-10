@@ -1,0 +1,54 @@
+# Python bytecode and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode and IDE-specific settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment/config files
+.env
+*.yaml
+*.yml
+config/settings.yaml
+
+# Logs and outputs
+*.log
+*.out
+*.bak
+
+# Reports and generated outputs
+/reports/*.md
+/reports/*.json
+/reports/*.pdf
+
+# Cache and temp files
+*.cache
+*.tmp
+*.swp
+*.egg-info/
+dist/
+build/
+
+# API keys and credentials (keep safe!)
+apikeys.json
+credentials.json

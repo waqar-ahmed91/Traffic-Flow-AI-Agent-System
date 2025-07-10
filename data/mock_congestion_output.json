@@ -1,0 +1,12 @@
+[
+  {
+    "intersection": "Elm Rd & Oak St",
+    "congestion_score": 0.58,
+    "status": "Severe"
+  },
+  {
+    "intersection": "5th Ave & Main St",
+    "congestion_score": 0.33,
+    "status": "Moderate"
+  }
+]

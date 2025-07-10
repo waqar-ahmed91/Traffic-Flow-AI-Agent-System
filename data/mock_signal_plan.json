@@ -1,0 +1,12 @@
+[
+  {
+    "intersection": "Elm Rd & Oak St",
+    "green_sec": 80,
+    "red_sec": 40
+  },
+  {
+    "intersection": "5th Ave & Main St",
+    "green_sec": 60,
+    "red_sec": 60
+  }
+]

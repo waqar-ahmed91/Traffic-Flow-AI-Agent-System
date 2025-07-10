@@ -1,0 +1,17 @@
+[
+  {
+    "area": "Downtown",
+    "common_issues": [
+      "Blocked signal",
+      "Heavy traffic"
+    ],
+    "severity_level": "High"
+  },
+  {
+    "area": "Midtown",
+    "common_issues": [
+      "Malfunctioning light"
+    ],
+    "severity_level": "Medium"
+  }
+]

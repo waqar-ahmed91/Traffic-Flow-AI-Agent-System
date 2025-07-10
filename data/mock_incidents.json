@@ -1,0 +1,14 @@
+[
+  {
+    "event_type": "Accident",
+    "location": "Elm Rd & Oak St",
+    "start_time": "2025-07-09T22:48",
+    "expected_duration_min": 60
+  },
+  {
+    "event_type": "Roadwork",
+    "location": "7th Ave & Pine St",
+    "start_time": "2025-07-09T21:53",
+    "expected_duration_min": 180
+  }
+]

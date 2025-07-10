@@ -1,0 +1,23 @@
+[
+  {
+    "intersection": "5th Ave & Main St",
+    "timestamp": "2025-07-09T22:43",
+    "vehicle_count": 160,
+    "avg_speed_kmh": 22.5,
+    "incidents": 0
+  },
+  {
+    "intersection": "Elm Rd & Oak St",
+    "timestamp": "2025-07-09T22:48",
+    "vehicle_count": 190,
+    "avg_speed_kmh": 17.8,
+    "incidents": 1
+  },
+  {
+    "intersection": "7th Ave & Pine St",
+    "timestamp": "2025-07-09T22:53",
+    "vehicle_count": 130,
+    "avg_speed_kmh": 25.1,
+    "incidents": 0
+  }
+]

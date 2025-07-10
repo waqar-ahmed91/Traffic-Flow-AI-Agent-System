@@ -1,0 +1,10 @@
+crewai
+langchain
+openai
+pandas
+scikit-learn
+plotly
+folium
+requests
+python-dotenv
+sseclient
