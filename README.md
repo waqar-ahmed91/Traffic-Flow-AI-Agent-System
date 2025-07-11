@@ -21,7 +21,7 @@ Each step is executed by a specialized agent with access to relevant tools and c
 ---
 
 ## 📂 Directory Structure
-
+```
 traffic_flow_agent/
 ├── agents/ # All agent definitions
 ├── tools/ # Modular tools used by agents
@@ -32,7 +32,7 @@ traffic_flow_agent/
 ├── generate_mock_sensor_data.py # Script to generate synthetic sensor data
 ├── requirements.txt # Dependencies
 └── README.md
-
+```
 ---
 
 ## 🛠 Features
