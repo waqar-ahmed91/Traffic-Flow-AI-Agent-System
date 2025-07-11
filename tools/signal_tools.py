@@ -43,4 +43,4 @@ def recommend_signal_timing(congestion_data: List[Dict[str, Any]], disruptions: 
             "status": status
         })
 
-    return {"signal_plan": recommendations}
+    return recommendations

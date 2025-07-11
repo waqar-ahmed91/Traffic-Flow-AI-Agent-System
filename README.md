@@ -22,6 +22,7 @@ Each step is executed by a specialized agent with access to relevant tools and c
 
 ## 📂 Directory Structure
 
+````
 traffic_flow_agent/
 ├── agents/ # All agent definitions
 ├── tools/ # Modular tools used by agents
@@ -52,7 +53,7 @@ traffic_flow_agent/
 
 ```bash
 pip install -r requirements.txt
-```
+````
 
 ```bash
 python crew.py --mock

@@ -1,4 +1,9 @@
 import argparse
+import os
+import re
+from markdown import markdown
+from weasyprint import HTML
+from datetime import datetime
 from crewai import Crew
 from langchain_community.chat_models import ChatOpenAI
 from langchain_ollama import OllamaLLM
@@ -9,15 +14,13 @@ from agents.signal_agent import TrafficSignalAgent
 from agents.public_transport_agent import PublicTransportAgent
 from agents.citizen_agent import CitizenReportAgent
 from agents.report_agent import TrafficReportAgent
-
-# Task logic
 from tasks import define_traffic_tasks
 
 def get_llm(mock=False):
     if mock:
-        return OllamaLLM(model="ollama/granite3-dense:2b", base_url="http://localhost:11434", temperature=0.1)
+        return OllamaLLM(model="ollama/qwen2.5:7b", base_url="http://localhost:11434", temperature=0.6)
     else:
-        return ChatOpenAI(model_name="gpt-4", temperature=0.1)
+        return ChatOpenAI(model_name="gpt-4o-mini", temperature=0.6)
 
 
 class TrafficFlowCrew:
@@ -25,7 +28,6 @@ class TrafficFlowCrew:
         self.use_mock = use_mock
         self.llm = get_llm(mock=self.use_mock)
 
-        # Initialize agents with LLM + mock switch
         self.sensor_agent = SensorDataAgent(llm=self.llm)
         self.congestion_agent = CongestionDetectionAgent(llm=self.llm)
         self.incident_agent = IncidentEventAgent(llm=self.llm)
@@ -47,18 +49,74 @@ class TrafficFlowCrew:
 
         print(f"[INFO] Initializing {'🧪 MOCK' if self.use_mock else '🔌 LIVE'} Crew run with {len(agents)} agents...")
 
-        # Define tasks for Crew
         tasks = define_traffic_tasks(agents)
 
-        # Assemble and execute crew
         crew = Crew(
             agents=agents,
             tasks=tasks,
             verbose=True
         )
-        crew.kickoff()
 
+        final_output = crew.kickoff()
+        final_report = final_output.final_output if hasattr(final_output, "final_output") else str(final_output)
 
+        clean_report = final_report.strip()
+        if clean_report.startswith("```markdown") or clean_report.startswith("```"):
+            clean_report = re.sub(r"^```markdown\s*", "", clean_report)
+            clean_report = re.sub(r"\s*```$", "", clean_report)
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+        os.makedirs("output", exist_ok=True)
+        md_path = f"output/traffic_report_{timestamp}.md"
+        pdf_path = f"output/traffic_report_{timestamp}.pdf"
+
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write(clean_report)
+        print(f"[INFO] ✅ Markdown saved: {md_path}")
+        css = """
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        font-size: 14px;
+                        padding: 20px;
+                        color: #333;
+                    }
+                    h1, h2 {
+                        color: #2c3e50;
+                        margin-top: 30px;
+                    }
+                    ul {
+                        padding-left: 20px;
+                    }
+                    li {
+                        margin-bottom: 6px;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 15px;
+                    }
+                    th, td {
+                        border: 1px solid #ccc;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f4f4f4;
+                    }
+                    em {
+                        font-size: 12px;
+                        color: #888;
+                    }
+                </style>
+                """
+
+        with open(md_path, "r", encoding="utf-8") as f:
+            md_content = f.read()
+
+        html_body = markdown(md_content, extensions=["tables", "extra", "sane_lists"])
+        html_template = f"<!DOCTYPE html><html><head>{css}</head><body>{html_body}</body></html>"
+        HTML(string=html_template).write_pdf(pdf_path)
+        print(f"[INFO] 📄 PDF saved: {pdf_path}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the Traffic Flow Agent System")
