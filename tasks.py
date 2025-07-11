@@ -1,6 +1,4 @@
 from crewai import Task
-
-# Import tools
 from tools.sensor_tools import get_traffic_sensor_data
 from tools.congestion_tools import detect_congestion
 from tools.incident_tools import get_disruption_events
@@ -25,10 +23,10 @@ def define_traffic_tasks(agents):
 
     task2 = Task(
         description=(
-        "Analyze the provided traffic sensor dataset to detect congestion. "
-        "You will receive a dictionary with a key 'sensor_data'. "
-        "Use the 'DetectCongestion' tool and pass it as: "
-        "{ \"sensor_data\": [ ... ] }"
+            "Analyze the provided traffic sensor dataset to detect congestion. "
+            "You will receive a dictionary with a key 'sensor_data'. "
+            "Use the 'DetectCongestion' tool and pass it as: "
+            "{ \"sensor_data\": [ ... ] }"
         ),
         agent=congestion_agent,
         tools=[detect_congestion],
@@ -61,7 +59,11 @@ def define_traffic_tasks(agents):
     )
 
     task5 = Task(
-        description="Check public transportation routes for conflicts with congested or disrupted areas and propose mitigation strategies.",
+        description=(
+        "Analyze current disruptions and check which bus/train routes intersect with them. "
+        "Use the tool 'CheckTransitConflicts' and return a structured list like: "
+        "[{\"route\": \"Bus 42\", \"conflict\": \"Elm Rd & Oak St\", \"suggestion\": \"Reroute via Maple Ave\"}, ...]"
+        ),
         agent=public_agent,
         tools=[check_transit_conflicts],
         context=[task2, task3],
@@ -72,10 +74,14 @@ def define_traffic_tasks(agents):
     )
 
     task6 = Task(
-        description="Parse citizen reports to extract frequent complaints and correlate them with known congestion or incident areas.",
+        description=(
+            "Parse citizen reports to extract frequent complaints and correlate them with known congestion or incident areas. "
+            "Use the 'ProcessCitizenReports' tool and pass it like:\n"
+            "{ \"sensor_data\": [...], \"disruptions\": [...] }"
+        ),
         agent=citizen_agent,
         tools=[process_citizen_reports],
-        context=[task2, task3],
+        context=[task1, task3],
         expected_output=(
             "Ranked list of citizen-reported issues by area, issue type, and severity "
             "with alignment to system data."
@@ -86,10 +92,10 @@ def define_traffic_tasks(agents):
         description=(
             "Summarize findings into a markdown traffic report. "
             "You will be given the following structured inputs: "
-            "`congestion_data`, `disruptions`, `signal_plans`, `transit_issues`, and `citizen_reports`. "
+            "`congestion_data`, `disruptions`, `signal_plan`, `transit_issues`, and `citizen_feedback`. "
             "Use the 'GenerateTrafficReport' tool and pass it like:\n"
-            "{ \"congestion_data\": [...], \"disruptions\": [...], \"signal_plans\": [...], "
-            "\"transit_issues\": [...], \"citizen_reports\": [...] }"
+            "{ \"congestion_data\": [...], \"disruptions\": [...], \"signal_plan\": [...], "
+            "\"transit_issues\": [...], \"citizen_feedback\": [...] }"
         ),
         agent=report_agent,
         tools=[generate_traffic_report],
@@ -99,6 +105,5 @@ def define_traffic_tasks(agents):
             "signal plans, transit issues, and citizen complaints for city planners."
         )
     )
-
 
     return [task1, task2, task3, task4, task5, task6, task7]

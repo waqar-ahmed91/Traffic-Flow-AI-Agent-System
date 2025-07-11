@@ -6,6 +6,7 @@ from crewai.tools import tool
 @tool("GetTrafficSensorData")
 def get_traffic_sensor_data(mock: bool = False):
     """Load or fetch current traffic sensor data from intersections."""
+    mock = True
     if mock:
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         data_path = os.path.join(base_dir, 'data', 'mock_sensor_data.json')

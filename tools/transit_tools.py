@@ -7,9 +7,12 @@ class TransitInput(BaseModel):
     disruptions: List[Dict[str, Any]]
 
 @tool("CheckTransitConflicts")
-def check_transit_conflicts(disruptions: List[Dict[str, Any]]):
-    """Detect conflicts between public transport and disrupted routes, and suggest mitigation."""
+def check_transit_conflicts(disruptions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Detect conflicts between public transport and disrupted routes, and suggest mitigation.
+    Returns structured conflict dictionaries.
+    """
     return [
         {"route": "Bus 42", "conflict": "Elm Rd & Oak St", "suggestion": "Reroute via Maple Ave"},
-        {"route": "Tram A", "conflict": "7th Ave & Pine St", "suggestion": "Schedule delay of 10 mins"}
+        {"route": "Tram A", "conflict": "7th Ave & Pine St", "suggestion": "Schedule a delay of 10 minutes"}
     ]
